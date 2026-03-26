@@ -2,31 +2,203 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معرض مشاريعي</title>
+    <title>ريشة لانا - ميثاق الإبداع</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; text-align: center; padding: 50px; }
-        h1 { color: #333; }
-        .container { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 30px; }
-        .btn { 
-            background-color: #2ea44f; color: white; padding: 15px 30px; 
-            text-decoration: none; border-radius: 8px; width: 250px;
-            font-size: 18px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        :root {
+            --royal-gold: #D4AF37;
+            --soft-pink: #FFC1CC;
+            --deep-rose: #C2185B;
+            --glass: rgba(255, 255, 255, 0.25);
         }
-        .btn:hover { background-color: #22863a; transform: scale(1.05); }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Amiri', serif; }
+
+        body {
+            background: radial-gradient(circle at center, #fff5f7 0%, #fce4ec 100%);
+            height: 100vh; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            perspective: 2000px;
+        }
+
+        /* خلفية الورد والبتلات */
+        .rose-bg {
+            position: fixed; width: 650px; height: 650px;
+            background: radial-gradient(circle, var(--soft-pink) 0%, transparent 75%);
+            filter: blur(80px); opacity: 0.2; z-index: -2;
+            animation: pulse 12s infinite alternate;
+        }
+        @keyframes pulse { from { transform: scale(0.85); } to { transform: scale(1.15); } }
+
+        .petal {
+            position: fixed; top: -50px; background: var(--soft-pink);
+            border-radius: 50% 0 50% 50%; opacity: 0.7; border: 1px solid var(--royal-gold);
+            z-index: -1; animation: fall linear infinite;
+        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+        /* الواجهة الزجاجية 3D */
+        .glass-master {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 4px double var(--royal-gold);
+            border-radius: 50px; width: 92%; max-width: 850px;
+            padding: 40px; text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+            position: relative; transform-style: preserve-3d;
+            animation: float3D 7s infinite ease-in-out;
+        }
+        @keyframes float3D {
+            0%, 100% { transform: rotateX(4deg) rotateY(-4deg) translateZ(20px); }
+            50% { transform: rotateX(-4deg) rotateY(4deg) translateZ(40px); }
+        }
+
+        .main-title { font-size: 4.2em; color: var(--deep-rose); text-shadow: 2px 2px 0px var(--royal-gold); margin-bottom: 10px; }
+
+        /* نمط الديباجة */
+        .prologue {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px dashed var(--royal-gold);
+            padding: 20px; border-radius: 20px;
+            font-size: 1.25em; line-height: 1.6; color: #333;
+            margin-bottom: 25px; text-align: justify;
+        }
+
+        .q-text { font-size: 1.8em; color: #004D40; font-weight: bold; line-height: 1.6; margin: 25px 0; }
+
+        textarea {
+            width: 100%; height: 140px; border: 2px solid var(--royal-gold);
+            border-radius: 25px; padding: 20px; font-size: 1.3em;
+            background: rgba(255, 255, 255, 0.7); outline: none;
+        }
+
+        .btn-luxe {
+            background: linear-gradient(45deg, var(--royal-gold), var(--deep-rose));
+            color: white; border: 2px solid white; border-radius: 50px;
+            padding: 14px 50px; font-size: 1.3em; cursor: pointer;
+            margin-top: 20px; font-weight: bold; transition: 0.3s;
+        }
+        .btn-luxe:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(194, 24, 91, 0.2); }
+
+        #final-record { display: none; text-align: right; overflow-y: auto; max-height: 70vh; }
+        .qa-card { border-right: 5px solid var(--royal-gold); padding: 15px; margin-bottom: 15px; background: rgba(255,255,255,0.3); border-radius: 0 15px 15px 0; }
+
+        @media print {
+            body { background: white; overflow: visible; }
+            .glass-master { background: white !important; border: 2px solid var(--royal-gold); animation: none !important; transform: none !important; box-shadow: none; width: 100%; max-width: 100%; height: auto; position: static; }
+            .btn-luxe, .rose-bg, .petal, #start-ui, #survey-ui, .reset-trigger { display: none !important; }
+            #final-record { display: block !important; max-height: none; overflow: visible; }
+        }
+
+        .reset-trigger { position: absolute; bottom: 15px; left: 30px; background: none; border: 1px solid var(--royal-gold); color: var(--royal-gold); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.8em; }
     </style>
 </head>
 <body>
-    
-    <h1>🚀 معرض مشاريعي الذكي</h1>
-    <p>اختر المشروع الذي تود فتحه:</p>
 
-    <div class="container">
-        <!-- يمكنك تغيير الروابط أدناه لروابط مشاريعك الجديدة -->
-        <a href="project1/index.html" class="btn">المشروع الأول 📁</a>
-        <a href="project2/index.html" class="btn">المشروع الثاني 📁</a>
-        <a href="https://google.com" class="btn">رابط خارجي 🌐</a>
+    <div class="rose-bg"></div>
+
+    <div class="glass-master">
+        <div id="start-ui">
+            <h1 class="main-title">ريشة لانا</h1>
+            
+            <div class="prologue">
+                <b>"إلى المبدعة التي ترى ما لا يراه الآخرون.."</b><br>
+                بين يديكِ اليوم ليس مجرد اختبار، بل هو <b>"مرآة للفكر"</b> وبوابة لعوالم لم تُكتشف بعد. في رحاب (ريشة لانا)، نحن لا نبحث عن إجابات عادية، بل ننشد تلك النبضات التي تخرج من أعماق خيالكِ لترسم فلسفتكِ الخاصة في الحياة والفن.
+                <br><br>
+                <center><b>أطلقي العنان لريشتكِ.. فالعالم ينتظر رؤية ما خلف ألوانكِ.</b></center>
+            </div>
+
+            <input type="text" id="stu-name" placeholder="دوّني اسمكِ الملكي هنا..." style="padding: 15px; width: 80%; border-radius: 40px; border: 2px solid var(--royal-gold); text-align: center; font-size: 1.2em; margin-bottom: 20px; background: rgba(255,255,255,0.6); outline: none;">
+            <br>
+            <button class="btn-luxe" onclick="launch()">اقتحمي عالم الإبداع</button>
+        </div>
+
+        <div id="survey-ui" style="display:none;">
+            <p id="q-text" class="q-text"></p>
+            <textarea id="ans-input" placeholder="دعي ريشتكِ تخطّ أعمق الأفكار..."></textarea>
+            <br>
+            <button class="btn-luxe" onclick="handleNext()">النبض التالي ❯</button>
+        </div>
+
+        <div id="final-record">
+            <h2 style="color: var(--deep-rose); text-align: center; border-bottom: 3px double var(--royal-gold); padding-bottom: 15px; margin-bottom: 20px;">ميثاق الإبداع والريادة الفكرية</h2>
+            <div id="intro-msg" style="padding: 20px; border-radius: 20px; margin-bottom: 20px; line-height: 1.8; border: 1px solid var(--soft-pink); background: rgba(255,255,255,0.4);"></div>
+            <div id="qa-list"></div>
+            <div style="display: flex; justify-content: space-around; margin-top: 40px; border-top: 2px solid var(--royal-gold); padding-top: 20px;">
+                <div style="text-align: center;">أخصائية الموهبة والإبداع<br><b style="color:var(--deep-rose); font-size: 1.3em;">صفاء المصري</b></div>
+                <div style="text-align: center;">توقيع المبدعة<br><b id="sig-name" style="color:var(--royal-gold); font-size: 1.3em;"></b></div>
+            </div>
+            <button class="btn-luxe" onclick="window.print()">🖨️ سحب السجل النهائي</button>
+        </div>
+
+        <button class="reset-trigger" onclick="smartReset()">🗑️ تصفير السجل</button>
     </div>
 
+    <script>
+        // بتلات الورد المتساقطة
+        for (let i = 0; i < 25; i++) {
+            let p = document.createElement('div'); p.className = 'petal';
+            p.style.left = Math.random() * 100 + 'vw'; p.style.width = p.style.height = (Math.random()*15+10)+'px';
+            p.style.animationDuration = (Math.random()*6+4)+'s';
+            document.body.appendChild(p);
+        }
+
+        const questions = [
+            "1. كيف توظفين 'الصمت البصري' في لوحاتكِ ليكون أبلغ تعبيراً من ازدحام الألوان؟",
+            "2. في عصر الذكاء الاصطناعي، ما هي البصمة التي تتركها ريشتكِ ولا يمكن للآلة محاكاتها؟",
+            "3. لو رسمتِ 'فلسفة الوجود' بلمستكِ الخاصة، ما هي الرموز التي ستجسد نظرتكِ للحياة؟",
+            "4. كيف يمكن للفن أن يكون جسراً لترميم انكسارات الروح وتحويل الألم إلى قوة ابتكار؟",
+            "5. أين يتقاطع 'الخيال الجامح' مع 'الدقة المهنية' في رحلتكِ الفنية الواعدة؟",
+            "6. صفي العمل الفني الذي ستتركينه كرسالة أخيرة لبني البشر تعبر عن جوهر السلام والجمال.",
+            "7. هل الإبداع هو عملية 'كشف' لما هو مخبوء في الكون أم هو 'خلق' من العدم؟",
+            "8. كيف تعيدين تعريف 'الجمال' بعيداً عن القوالب التقليدية التي يفرضها المجتمع؟",
+            "9. لو سافرتِ عبر الزمن، أي صراع فكري تاريخي تودين حسمه من خلال لوحة تشكيلية؟",
+            "10. ختاماً.. كيف ستجعلين من إبداعكِ طاقةً خالدة تلهم الأجيال العابرة للزمان؟"
+        ];
+
+        let idx = 0; let storage = [];
+
+        function launch() {
+            if(!document.getElementById('stu-name').value) return alert("الاسم مطلوب للميثاق!");
+            document.getElementById('start-ui').style.display = 'none';
+            document.getElementById('survey-ui').style.display = 'block';
+            render();
+        }
+
+        function render() {
+            document.getElementById('q-text').innerText = questions[idx];
+            document.getElementById('ans-input').value = "";
+        }
+
+        function handleNext() {
+            let val = document.getElementById('ans-input').value;
+            if(!val) return alert("الرجاء الكتابة أولاً!");
+            storage.push({ q: questions[idx], a: val });
+            idx++;
+            if(idx < questions.length) render();
+            else finish();
+        }
+
+        function finish() {
+            document.getElementById('survey-ui').style.display = 'none';
+            document.getElementById('final-record').style.display = 'block';
+            let name = document.getElementById('stu-name').value;
+            document.getElementById('sig-name').innerText = name;
+            document.getElementById('intro-msg').innerHTML = `إلى المبدعة <b>${name}</b>.. ريشتكِ لم تكن مجرد أداة، بل جسر عبور من الخيال إلى الابتكار. إجاباتكِ العميقة هي أولى خطواتكِ في سجل الفن الإنساني الخالد. تذكري: بصمتكِ هي الوردة التي ستزهر لتملأ الدنيا جمالاً.`;
+            let h = "";
+            storage.forEach(x => { h += `<div class="qa-card"><p style="color:var(--deep-rose); font-weight:bold;">${x.q}</p><p>الإجابة: ${x.a}</p></div>`; });
+            document.getElementById('qa-list').innerHTML = h;
+        }
+
+        function smartReset() {
+            if(confirm("هل تودين البدء من جديد؟")) {
+                idx = 0; storage = [];
+                document.getElementById('stu-name').value = "";
+                document.getElementById('final-record').style.display = 'none';
+                document.getElementById('survey-ui').style.display = 'none';
+                document.getElementById('start-ui').style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>

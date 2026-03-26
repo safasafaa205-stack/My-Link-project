@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منظار التميز المهني - مدرسة الملك عبدالله الثاني</title>
+    <style>
+        :root { --gold: #d4af37; --gold-dark: #b8860b; --space: #0a0e14; --white: #ffffff; }
+        
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background: var(--space); 
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; perspective: 1500px;
+        }
+        
+        #starCanvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+
+        .main-card { 
+            position: relative; z-index: 10; width: 90%; max-width: 800px; 
+            background: var(--white); border-radius: 40px; border: 4px solid var(--gold); 
+            padding: 90px 25px 30px; 
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6); 
+            max-height: 85vh; display: flex; flex-direction: column; text-align: center;
+            transform-style: preserve-3d; transition: transform 0.1s ease-out;
+        }
+
+        .logo-wrap { 
+            position: absolute; top: -75px; left: 50%; transform: translateX(-50%) translateZ(50px); 
+            width: 140px; height: 140px; z-index: 100;
+        }
+        .logo-wrap img { 
+            width: 100%; height: 100%; border-radius: 50%; border: 5px solid var(--gold); 
+            background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: spin 7s infinite linear;
+        }
+        @keyframes spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+        h1 { color: var(--gold-dark); margin: 0; font-size: 2.2rem; transform: translateZ(30px); }
+        .slogan { 
+            color: var(--gold-dark); font-style: italic; font-size: 1.15rem; 
+            margin: 10px 0 25px; font-weight: bold; display: block; transform: translateZ(20px);
+        }
+
+        .scroll-area { overflow-y: auto; flex-grow: 1; padding: 10px; transform: translateZ(10px); }
+        .scroll-area::-webkit-scrollbar { width: 6px; }
+        .scroll-area::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        .btn { padding: 15px 35px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; margin: 10px; font-size: 1.1rem; }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: white; box-shadow: 0 5px 0 #8a6d05; }
+        .btn-gold:hover { transform: scale(1.05) translateZ(15px); }
+
+        .q-box { background: #f9f9f9; padding: 30px; border-radius: 25px; border: 1px solid #eee; margin-bottom: 25px; }
+        
+        .podium { display: flex; justify-content: center; align-items: flex-end; gap: 20px; height: 160px; margin: 40px 0; }
+        .pillar { width: 75px; background: linear-gradient(to top, var(--gold-dark), var(--gold)); border-radius: 10px 10px 0 0; display: flex; flex-direction: column; align-items: center; color: white; position: relative; }
+        .symbol { position: absolute; top: -45px; color: var(--gold-dark); font-size: 2.2rem; font-weight: 900; }
+
+        .card-info { background: #fffcf5; border-right: 8px solid var(--gold); padding: 25px; margin: 20px 0; border-radius: 20px; text-align: right; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .tag { display: inline-block; background: var(--gold-dark); color: white; padding: 5px 12px; border-radius: 8px; font-size: 0.85rem; margin: 4px; }
+        
+        input { width: 80%; padding: 18px; border-radius: 40px; border: 2px solid var(--gold); text-align: center; font-size: 1.2rem; margin: 20px 0; outline: none; }
+        .admin-lock { position: absolute; bottom: 15px; left: 20px; background: none; border: none; cursor: pointer; opacity: 0.2; font-size: 1.2rem; }
+
+        /* تـنـسـيـق الـطـبـاعـة الـمـطـور */
+        @media print {
+            @page { size: auto; margin: 15mm; }
+            body, html { overflow: visible !important; height: auto !important; background: white !important; }
+            #starCanvas, .logo-wrap, .btn, .admin-lock, #view-start, #view-quiz { display: none !important; }
+            .main-card { 
+                position: static !important; width: 100% !important; max-width: none !important; 
+                border: none !important; box-shadow: none !important; transform: none !important;
+                max-height: none !important; display: block !important;
+            }
+            .scroll-area { overflow: visible !important; display: block !important; }
+            .card-info { break-inside: avoid; border: 1px solid #eee; border-right: 8px solid var(--gold-dark); margin-bottom: 20px; }
+            .print-only { display: block !important; }
+            .q-report-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 10pt; }
+            .q-report-table th, .q-report-table td { border: 1px solid #ddd; padding: 8px; text-align: right; }
+            .header-print { text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 20px; margin-bottom: 30px; display: block !important; }
+            .podium { height: 120px !important; margin: 20px 0 !important; }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body onmousemove="tiltEffect(event)">
+
+<canvas id="starCanvas"></canvas>
+
+<div class="main-card" id="targetCard">
+    <div class="logo-wrap">
+        <img src="https://i.ibb.co/Rk0VndR8/IMG-20260219-WA0000.jpg" alt="Logo">
+    </div>
+
+    <div class="print-only header-print">
+        <h1 style="color: #b8860b; font-size: 24pt;">تقرير مقياس منظار التميز المهني</h1>
+        <p style="font-size: 14pt; margin: 5px 0;">مدرسة الملك عبدالله الثاني للتميز | إشراف: صفاء المصري</p>
+        <h3 id="print-student-name-header" style="color: #333; margin-top: 15px; border: 1px solid #ddd; padding: 10px; display: inline-block;"></h3>
+    </div>
+
+    <h1>مِنظار التميز المهني</h1>
+    <span class="slogan">"حيثُ تُلتقي الموهبة بالمسار.. لنرسم معاً خارطة مستقبلك المشرق"</span>
+
+    <div class="scroll-area" id="main-ui">
+        <div id="view-start">
+            <p style="font-weight: bold; color: #666;">مدرسة الملك عبدالله الثاني للتميز | إشراف: صفاء المصري</p>
+            <input type="text" id="nameInp" placeholder="أدخل اسم الطالب الثلاثي">
+            <br>
+            <button class="btn btn-gold" onclick="startApp()">ابدأ رحلة الاكتشاف 🚀</button>
+        </div>
+
+        <div id="view-quiz" style="display:none;">
+            <div id="q-num" style="color:var(--gold-dark); font-weight:bold; font-size:1.2rem; margin-bottom:15px;">1 / 60</div>
+            <div class="q-box"><p id="q-txt" style="font-size:1.6rem; font-weight:bold; color:#222; margin:0;"></p></div>
+            <button class="btn btn-gold" onclick="handle(2, 'أميل بشدة')">أميل بشدة ✅</button>
+            <button class="btn" style="background:#bdc3c7; color:white;" onclick="handle(1, 'محايد')">محايد ⚪</button>
+            <button class="btn" style="background:#95a5a6; color:white;" onclick="handle(0, 'لا أميل')">لا أميل ❌</button>
+        </div>
+
+        <div id="view-result" style="display:none;">
+            <h2 style="color:var(--gold-dark);">تحليل شفرتك المهنية الثلاثية</h2>
+            <div class="podium" id="chart-div"></div>
+            
+            <div id="analysis-div"></div>
+
+            <div class="print-only" style="page-break-before: always; text-align: right; border-top: 2px solid var(--gold); padding-top: 30px;">
+                <h3 style="color: #b8860b;">💡 التوصيات الإرشادية اللازمة:</h3>
+                <ul id="rec-list" style="line-height: 2; font-size: 12pt; background: #fffcf5; padding: 20px; border-radius: 15px; list-style-type: none;"></ul>
+                
+                <h3 style="color: #b8860b; margin-top: 40px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">📋 تفاصيل إجابات الطالب والتحليل التخصصي:</h3>
+                <table class="q-report-table">
+                    <thead>
+                        <tr style="background: #f2f2f2;">
+                            <th style="width: 60%;">السؤال المهني</th>
+                            <th style="width: 20%;">إجابة الطالب</th>
+                            <th style="width: 20%;">النمط المرتبط</th>
+                        </tr>
+                    </thead>
+                    <tbody id="q-report-body"></tbody>
+                </table>
+            </div>
+
+            <div style="text-align:center; margin-top:30px;">
+                <button class="btn btn-gold" id="finalPrintBtn" onclick="window.print()">طباعة التقرير الشامل 📄</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="admin-lock" onclick="admin()">🔐</button>
+</div>
+
+<script>
+    // الأسئلة والبيانات (ثابتة تماماً كما طلبت)
+    const qs = [
+        {q: "هل تحب فك وتركيب الروبوتات والآلات؟", t:"R"}, {q: "هل تفضل العمل الميداني واستخدام الأدوات؟", t:"R"}, {q: "هل تحب صيانة الأجهزة الكهربائية؟", t:"R"}, {q: "هل تستهويك قيادة المركبات الثقيلة؟", t:"R"}, {q: "هل تحب بناء نماذج هندسية؟", t:"R"}, {q: "هل تميل لمهنة الجراحة أو الأعمال اليدوية؟", t:"R"}, {q: "هل تحب استخدام الأدوات الكهربائية؟", t:"R"}, {q: "هل تميل للهندسة المدنية؟", t:"R"}, {q: "هل تحب العمل في المزارع؟", t:"R"}, {q: "هل تجد بارعاً في إصلاح الأعطال؟", t:"R"},
+        {q: "هل تحب تحليل الشفرات البرمجية؟", t:"I"}, {q: "هل تقضي وقتاً في قراءة الأبحاث العلمية؟", t:"I"}, {q: "هل يثير فضولك البحث في أسرار الفضاء؟", t:"I"}, {q: "هل تستمتع بحل الألغاز الرياضية؟", t:"I"}, {q: "هل تحب دراسة الكائنات الحية؟", t:"I"}, {q: "هل تفضل العمل في مختبرات بحثية؟", t:"I"}, {q: "هل يستهويك العمل كباحث جنائي؟", t:"I"}, {q: "هل تحب تطوير خوارزميات؟", t:"I"}, {q: "هل تميل لقراءة كتب الفلسفة؟", t:"I"}, {q: "هل تجد متعة في فهم مسببات الأمراض؟", t:"I"},
+        {q: "هل تستهويك الفنون الرقمية وتصميم الشخصيات؟", t:"A"}, {q: "هل تجد متعة في كتابة النصوص المسرحية؟", t:"A"}, {q: "هل تعزف على آلة موسيقية؟", t:"A"}, {q: "هل تحب تصميم الديكور وتنسيق الألوان؟", t:"A"}, {q: "هل تميل لابتكار تصاميم أزياء؟", t:"A"}, {q: "هل ترفض الروتين وتفضل العمل الإبداعي؟", t:"A"}, {q: "هل تحب التمثيل والظهور الفني؟", t:"A"}, {q: "هل تجد نفسك مبدعاً في التصوير؟", t:"A"}, {q: "هل تحب هندسة العمارة؟", t:"A"}, {q: "هل تعبر عن مشاعرك من خلال الرسم؟", t:"A"},
+        {q: "هل يسعدك مساعدة الطلاب في فهم الدروس؟", t:"S"}, {q: "هل تحب العمل كمستشار نفسي؟", t:"S"}, {q: "هل تستمتع بالعمل التطوعي؟", t:"S"}, {q: "هل تجد نفسك وسيطاً لحل النزاعات؟", t:"S"}, {q: "هل تحب مهنة التعليم؟", t:"S"}, {q: "هل تستهويك المهن الإرشادية؟", t:"S"}, {q: "هل تحب بناء علاقات اجتماعية واسعة؟", t:"S"}, {q: "هل تجد متعة في رعاية الأطفال؟", t:"S"}, {q: "هل تفضل العمل ضمن فريق؟", t:"S"}, {q: "هل تحب حماية حقوق الإنسان؟", t:"S"},
+        {q: "هل تطمح لامتلاك شركة وإدارتها؟", t:"E"}, {q: "هل تجيد إقناع الآخرين بأفكارك؟", t:"E"}, {q: "هل تحب قيادة الفرق واتخاذ القرارات؟", t:"E"}, {q: "هل يستهويك عالم البورصة والمخاطرة؟", t:"E"}, {q: "هل تميل لمهنة المحاماة؟", t:"E"}, {q: "هل تحب التنافس لتحقيق أعلى المبيعات؟", t:"E"}, {q: "هل تطمح للوصول لمناصب قيادية؟", t:"E"}, {q: "هل تجد متعة في الخطابة؟", t:"E"}, {q: "هل تحب تنظيم الفعاليات الكبرى؟", t:"E"}, {q: "هل تفضل بيئات العمل السريعة؟", t:"E"},
+        {q: "هل تحب تنظيم البيانات في جداول؟", t:"C"}, {q: "هل تجد متعة في مراجعة الحسابات؟", t:"C"}, {q: "هل تفضل الالتزام بخطة واضحة؟", t:"C"}, {q: "هل تحب أرشفة الوثائق؟", t:"C"}, {q: "هل تميل لمهنة التدقيق المالي؟", t:"C"}, {q: "هل تستهويك المهن الدقيقة؟", t:"C"}, {q: "هل تحب العمل المكتبي المنظم؟", t:"C"}, {q: "هل تجد نفسك بارعاً في التقارير؟", t:"C"}, {q: "هل تحب العمل في البنوك؟", t:"C"}, {q: "هل تفضل اتباع التعليمات بدقة؟", t: "C"}
+    ];
+
+    const data = {
+        R: { n: "الواقعي", p: "شخصية عملية تعشق العمل اليدوي والآلات والحلول الملموسة.", j: ["هندسة ميكانيكية", "طيار", "جراح", "تقني"], rec: "يُنصح بالتركيز على المجالات التقنية والهندسية التي تتطلب مهارات يدوية عالية ودقة تطبيقية." },
+        I: { n: "الاستقصائي", p: "شخصية تحليلية تعشق البحث العلمي والمنطق وحل الألغاز.", j: ["مبرمج", "باحث علمي", "طبيب", "محلل بيانات"], rec: "يُنصح بتنمية مهارات البحث والاستكشاف العلمي، والالتحاق بالنوادي العلمية والبرمجية." },
+        A: { n: "الفني", p: "شخصية مبدعة ترفض القيود وتعبر عن نفسها بالفن والابتكار.", j: ["مصمم", "معماري", "مخرج", "كاتب"], rec: "يُنصح بتوفير بيئة عمل مرنة تسمح بالتعبير عن الذات وتطوير المهارات الفنية والرقمية." },
+        S: { n: "الاجتماعي", p: "شخصية إنسانية تحب مساعدة الآخرين والتدريس والتواصل.", j: ["معلم", "أخصائي نفسي", "مستشار", "طبيب"], rec: "يُنصح بالمشاركة في الأعمال التطوعية والقيادية التي تخدم المجتمع وتعزز الذكاء العاطفي." },
+        E: { n: "المغامر", p: "شخصية قيادية تحب الإدارة والإقناع والمشاريع الطموحة.", j: ["مدير أعمال", "محامي", "رائد أعمال", "مسوق"], rec: "يُنصح بتطوير مهارات الإقناع والتفاوض والبحث عن فرص لريادة الأعمال والقيادة." },
+        C: { n: "التقليدي", p: "شخصية منظمة تحب الدقة والترتيب والتعامل مع البيانات.", j: ["محاسب", "مدقق مالي", "إداري", "أرشيفي"], rec: "يُنصح بالعمل في بيئات منظمة تعتمد على القوانين والأنظمة الدقيقة وإدارة البيانات." }
+    };
+
+    let idx = 0; 
+    let res = {R:0, I:0, A:0, S:0, E:0, C:0};
+    let sessionLog = [];
+
+    // نظام النجوم والخلفية
+    const cvs = document.getElementById('starCanvas');
+    const cx = cvs.getContext('2d');
+    cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+    let ss = Array(150).fill().map(() => ({ x: Math.random()*cvs.width, y: Math.random()*cvs.height, r: Math.random()*1.5, o: Math.random() }));
+    function anim() {
+        cx.clearRect(0,0,cvs.width, cvs.height);
+        ss.forEach(s => { s.o += 0.01; cx.fillStyle = `rgba(212,175,55,${Math.abs(Math.sin(s.o))})`; cx.beginPath(); cx.arc(s.x, s.y, s.r, 0, Math.PI*2); cx.fill(); });
+        requestAnimationFrame(anim);
+    }
+    anim();
+
+    function tiltEffect(e) {
+        const card = document.getElementById('targetCard');
+        const x = (window.innerWidth / 2 - e.clientX) / 25;
+        const y = (window.innerHeight / 2 - e.clientY) / 25;
+        card.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+    }
+
+    function startApp() {
+        const name = document.getElementById('nameInp').value;
+        if(!name) return alert("يرجى إدخال اسمك أولاً");
+        document.getElementById('print-student-name-header').innerText = "اسم الطالب: " + name;
+        document.getElementById('view-start').style.display = 'none';
+        document.getElementById('view-quiz').style.display = 'block';
+        showQ();
+    }
+
+    function showQ() {
+        if(idx >= 60) return showRes();
+        document.getElementById('q-num').innerText = `${idx + 1} / 60`;
+        document.getElementById('q-txt').innerText = qs[idx].q;
+    }
+
+    function handle(v, label) {
+        sessionLog.push({ q: qs[idx].q, a: label, t: qs[idx].t });
+        res[qs[idx].t] += v;
+        idx++;
+        showQ();
+    }
+
+    function showRes() {
+        document.getElementById('view-quiz').style.display = 'none';
+        document.getElementById('view-result').style.display = 'block';
+        const sorted = Object.keys(res).sort((a,b) => res[b] - res[a]);
+        
+        // الرسم البياني
+        let cHtml = '';
+        sorted.slice(0, 3).forEach(k => {
+            let h = (res[k]/20) * 110 + 30;
+            cHtml += `<div class="pillar" style="height:${h}px"><span class="symbol">${k}</span>${res[k]}</div>`;
+        });
+        document.getElementById('chart-div').innerHTML = cHtml;
+
+        // التحليل والتوصيات
+        let aHtml = '';
+        let recHtml = '';
+        sorted.slice(0, 3).forEach((k, i) => {
+            aHtml += `<div class="card-info"><h3>${i+1}. ${data[k].n}</h3><p>${data[k].p}</p>${data[k].j.map(j => `<span class="tag">${j}</span>`).join('')}</div>`;
+            recHtml += `<li><strong>${i+1}. النمط ${data[k].n}:</strong> ${data[k].rec}</li>`;
+        });
+        document.getElementById('analysis-div').innerHTML = aHtml;
+        document.getElementById('rec-list').innerHTML = recHtml;
+
+        // جدول الإجابات
+        let tableHtml = '';
+        sessionLog.forEach(item => {
+            tableHtml += `<tr><td>${item.q}</td><td>${item.a}</td><td>${data[item.t].n}</td></tr>`;
+        });
+        document.getElementById('q-report-body').innerHTML = tableHtml;
+
+        // حفظ للآدمن
+        let logs = JSON.parse(localStorage.getItem('h_logs') || '[]');
+        logs.push({ n: document.getElementById('nameInp').value, c: sorted.slice(0,3).join('-'), date: new Date().toLocaleDateString() });
+        localStorage.setItem('h_logs', JSON.stringify(logs));
+    }
+
+    function admin() {
+        if(prompt("كلمة السر:") === "1234") {
+            let logs = JSON.parse(localStorage.getItem('h_logs') || '[]');
+            let t = '<h3>السجل الإداري</h3><table border="1" style="width:100%; border-collapse:collapse; background:white;"><tr><th>الاسم</th><th>النتيجة</th><th>التاريخ</th></tr>';
+            logs.forEach(l => t += `<tr><td>${l.n}</td><td>${l.c}</td><td>${l.date || '-'}</td></tr>`);
+            document.getElementById('main-ui').innerHTML = t + '</table><br><button class="btn btn-gold" onclick="location.reload()">خروج</button>';
+        }
+    }
+</script>
+</body>
+</html>

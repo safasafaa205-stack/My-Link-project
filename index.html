@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ميثاق التعليم الدامج - مدرسة التميز الملكية</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@700;900&family=Reem+Kufi:wght@700&display=swap');
+
+        :root {
+            --gold-royal: linear-gradient(135deg, #bf953f 0%, #fcf6ba 45%, #b38728 70%, #fbf5b7 100%);
+            --glass: rgba(255, 255, 255, 0.08);
+            --font-size-text: 1.85rem; 
+        }
+
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background: #000; font-family: 'Amiri', serif; color: #fff; }
+
+        #nebula-bg { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, #2e080c 0%, #000 100%); transition: 0.2s; }
+        .stars { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.5; animation: spacePulse 20s ease-in-out infinite alternate; }
+        @keyframes spacePulse { from {transform: scale(1);} to {transform: scale(1.1) rotate(2deg);} }
+
+        .logos-container { position: fixed; top: 25px; width: 100%; display: flex; justify-content: space-between; padding: 0 60px; z-index: 10000; box-sizing: border-box; pointer-events: none; }
+        .logos-container img { height: 115px; width: auto; border-radius: 50%; border: 3px solid #bf953f; filter: drop-shadow(0 0 15px gold); background: rgba(0,0,0,0.5); object-fit: contain; }
+
+        #starter { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .shimmer-text { font-family: 'Reem Kufi'; font-size: 5.5rem; font-weight: 900; background: #222 linear-gradient(to right, #bf953f 20%, #fcf6ba 40%, #fcf6ba 60%, #bf953f 80%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; margin-bottom: 20px; }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        #viewport { width: 100%; height: 100%; perspective: 2500px; display: flex; align-items: center; justify-content: center; }
+        .slide { position: absolute; width: 92%; max-width: 1580px; opacity: 0; visibility: hidden; transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); transform: translateZ(-1200px) rotateX(15deg) scale(0.8); }
+        .slide.active { opacity: 1; visibility: visible; transform: translateZ(0) rotateX(0) scale(1); }
+
+        h1 { font-family: 'Reem Kufi'; font-size: 3.8rem; background: var(--gold-royal); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; text-align: center; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8)); }
+        .card { background: var(--glass); backdrop-filter: blur(45px); border: 2px solid rgba(191,149,63,0.4); border-radius: 45px; padding: 40px; width: 100%; box-shadow: 0 40px 90px rgba(0,0,0,1); font-size: var(--font-size-text); line-height: 1.6; text-align: right; display: flex; align-items: center; gap: 40px; }
+        .profile-img { width: 340px; height: 340px; border-radius: 35px; border: 5px solid #bf953f; object-fit: cover; box-shadow: 0 0 35px rgba(191,149,63,0.5); }
+        .highlight { color: #fcf6ba; font-weight: 900; }
+        ul { margin: 0; padding-right: 25px; }
+        li { margin-bottom: 10px; }
+
+        .controls { position: fixed; bottom: 35px; display: flex; gap: 20px; z-index: 5000; }
+        .btn { background: var(--gold-royal); border: none; padding: 12px 45px; border-radius: 60px; font-family: 'Cairo'; font-weight: 900; font-size: 1.2rem; cursor: pointer; color: #2c050a; transition: 0.3s; }
+    </style>
+</head>
+<body onmousemove="parallax(event)">
+
+<div id="starter">
+    <div class="shimmer-text">التعليم الدامج.. تميزٌ بلا حدود</div>
+    <h1 style="font-size: 2.5rem; margin-top: -15px;">مدرسة الملك عبدالله الثاني للتميز - سحاب</h1>
+    <button class="btn" onclick="start()">استكشاف الميثاق العلمي</button>
+</div>
+
+<audio id="music" loop><source src="https://assets.mixkit.co/music/preview/mixkit-classical-piano-performance-151.mp3"></audio>
+<div id="nebula-bg"><div class="stars"></div></div>
+
+<div class="logos-container">
+    <img src="https://i.ibb.co/yj9vwV2/IMG-20260219-WA0001.jpg" alt="Logo">
+    <img src="https://i.ibb.co/gMdrDKYD/IMG-20260219-WA0000.jpg" alt="Logo">
+</div>
+
+<div id="viewport">
+    <div class="slide active">
+        <h1>رؤية فرسان المستقبل</h1>
+        <div class="card">
+            <img src="https://i.ibb.co/LXV5tXjw/1771519746497.jpg" class="profile-img">
+            <div style="flex:1;">
+                تستمد مدرسة التميز فلسفتها من رؤية <span class="highlight">سمو الأمير الحسين بن عبدالله الثاني</span>؛ الذي يؤمن بأن الإبداع حق مشاع. التعليم الدامج لدينا هو "تمكين استراتيجي" يهدف لتحويل التنوع إلى قوة دافعة لبناء وطن يحتفي بكل مبدع، وتذليل كافة العوائق أمام العقول المتوقدة لتصل إلى أقصى طاقاتها.
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h1>مفهوم وأهمية التعليم الدامج</h1>
+        <div class="card" style="display:block;">
+            <span class="highlight">المفهوم:</span> هو منظومة تربوية متكاملة تضمن حق "الوصول المعرفي الشامل" لجميع الطلبة في بيئات التعلم العادية، مع توفير المواءمات اللازمة دون المساس بمعايير الجودة الأكاديمية.<br><br>
+            <span class="highlight">الأهمية:</span> 
+            1. <span class="highlight">العدالة المعرفية:</span> تكافؤ الفرص في نيل التعليم النوعي. 
+            2. <span class="highlight">الإثراء المتبادل:</span> تعزيز الذكاء الوجداني والاجتماعي لدى طالبات التميز عبر قبول التنوع البشري كقيمة مضافة.
+        </div>
+    </div>
+
+    <div class="slide">
+        <h1>أركان وشروط المدرسة الدامجة</h1>
+        <div class="card" style="display:block;">
+            تتحقق جودة الدمج في صروح التميز عبر ثلاثة أركان سيادية:
+            <ul>
+                <li><span class="highlight">الركن المنهجي:</span> "التصميم الشامل للتعلم" (UDL) الذي يوفر خيارات متعددة للتمثيل والتعبير والمشاركة.</li>
+                <li><span class="highlight">الركن البيئي التقني:</span> بيئة ذكية تخلو من الحواجز الفيزيائية والرقمية، مدعمة بالتكنولوجيا المساندة.</li>
+                <li><span class="highlight">الركن السيكومتري:</span> توفر أدوات قياس وتشخيص ذات <span class="highlight">صدق وثبات عاليين</span> لضمان دقة التدخلات التربوية.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h1>التطبيق الواقعي في بيئة التميز</h1>
+        <div class="card" style="display:block;">
+            نطبق التعليم الدامج عبر مسار مهني متقدم يتمثل في:
+            <ul>
+                <li><span class="highlight">التفريد التعليمي:</span> تصميم "الخطة التربوية الفردية" التي تدمج بين احتياجات الطالبة وبين المناهج الإثرائية للمدرسة.</li>
+                <li><span class="highlight">المواءمة الصفية الشاملة:</span> تنفيذ التدريس داخل الغرفة الصفية العادية عبر استراتيجيات (التدريس المتمايز) لضمان انخراط الجميع في المحتوى العلمي العميق.</li>
+                <li><span class="highlight">التقييم المستمر:</span> رصد التقدم الأكاديمي والنمو الشخصي بمؤشرات أداء عالمية تضمن جودة المخرجات.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h1>القيادة التربوية: أ. أمل السويطي</h1>
+        <div class="card">
+            <img src="https://images2.imgbox.com/20/b6/3Q8fXMed_o.jpg" class="profile-img">
+            <div style="flex:1;">
+                بقيادة الأستاذة <span class="highlight">أمل السويطي</span>، نطبق منهجية "الإدارة بالقيم"؛ حيث يتم توجيه كافة الموارد المدرسية لخدمة رؤية الدمج. تؤمن القائدة أمل بأن "التميز لا يكتمل إلا بالاحتواء"، وبأن مدرستنا هي المختبر الحقيقي لصناعة قادة المستقبل الذين يحملون الأردن في قلوبهم بوعي وإنسانية.
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h1>المرشدة الأكاديمية والتربوية: أ. دعاء بلعاوي</h1>
+        <div class="card">
+            <img src="https://i.ibb.co/JjN475Q6/FB-IMG-1774378118220.jpg" class="profile-img">
+            <div style="flex:1;">
+                تعتبر الأستاذة <span class="highlight">دعاء بلعاوي</span> مهندسة الأمن الوجداني في المدرسة. يتركز دورها في بناء "المرونة النفسية" للطالبات، وتهيئة المناخ الصفي ليكون حاضنة للثقة بالنفس. هي البوصلة التي توجه الطالبات نحو التوازن بين الطموح الأكاديمي والسكينة النفسية، محققةً مفهوم "الدمج الوجداني" قبل المعرفي.
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h1>فريق التمكين والموهبة</h1>
+        <div class="card" style="gap: 30px;">
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <img src="https://i.ibb.co/9ks2PYWQ/IMG-20260311-WA0024.jpg" style="width: 180px; height: 180px; border-radius: 50%; border: 3px solid gold; object-fit: cover;">
+                <img src="https://i.ibb.co/hxZjW7jH/IMG-20260223-WA0076.jpg" style="width: 180px; height: 180px; border-radius: 50%; border: 3px solid gold; object-fit: cover;">
+            </div>
+            <div style="flex: 1;">
+                🛡️ <span class="highlight">أ. صفاء المصري:</span> عصب المواءمة؛ تضمن تكافؤ الفرص عبر تكييف المحتوى التعليمي المتخصص ليناسب الاحتياجات النوعية للطالبات.<br><br>
+                🌟 <span class="highlight">أ. أروى نصار:</span> جسر الموهبة؛ تكتشف العبقرية الكامنة خلف الاختلاف، وتؤمن بأن كل طالبة في مدرسة التميز هي مشروع ريادي قادم نحو العالمية.
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h1>ميثاق الوفاء.. الأردن أمانة</h1>
+        <div class="card" style="text-align: center; display: block; border: 4px solid gold;">
+            <p>ميثاقنا هو عهدٌ لا ينقطع؛ بأن يظل كل صف دراسي مختبراً للقيم، وكل طالبة قصة نجاح ملهمة. نحن لا نعلّم فقط، نبني وطناً هاشمياً يحتفي بالجميع ويسمو بالجميع.</p>
+            <p style="font-size: 3.5rem; color: gold; font-weight: 900; margin-top: 20px;">دمتم شعلةً للتميز.. ودمتم ذخراً للوطن</p>
+        </div>
+    </div>
+</div>
+
+<div class="controls">
+    <button class="btn" onclick="prev()">السابق</button>
+    <button id="autoBtn" class="btn" style="background: #630d16; color: #fff;" onclick="toggleAuto()">تشغيل تلقائي</button>
+    <button class="btn" onclick="next()">التالي</button>
+</div>
+
+<script>
+    let current = 0; let autoInt = null; const slides = document.querySelectorAll('.slide');
+    function start() { document.getElementById('starter').style.opacity = '0'; setTimeout(()=>document.getElementById('starter').style.display='none',600); document.getElementById('music').play(); }
+    function update() { slides.forEach((s, i) => s.classList.toggle('active', i === current)); }
+    function next() { current = (current + 1) % slides.length; update(); }
+    function prev() { current = (current - 1 + slides.length) % slides.length; update(); }
+    function toggleAuto() {
+        if (autoInt) { clearInterval(autoInt); autoInt = null; document.getElementById('autoBtn').innerText = "تشغيل تلقائي"; }
+        else { autoInt = setInterval(next, 15000); document.getElementById('autoBtn').innerText = "إيقاف التلقائي"; }
+    }
+    function parallax(e) {
+        const bg = document.getElementById('nebula-bg');
+        const x = (window.innerWidth - e.pageX * 2) / 100;
+        const y = (window.innerHeight - e.pageY * 2) / 100;
+        bg.style.transform = `translateX(${x}px) translateY(${y}px)`;
+    }
+</script>
+</body>
+</html>
